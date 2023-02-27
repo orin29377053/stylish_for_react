@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Container,  Col, Form } from "react-bootstrap";
+import { Button, Container, Col, Form } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { getJWT } from "../../action/todolist";
 import { useHistory } from "react-router-dom";
@@ -13,13 +13,9 @@ const Login = () => {
     const [signUpEmail, setSignUpEmail] = useState("");
     const [signUpPwd, setSignUpPwd] = useState("");
     const [singUpname, setSignUpName] = useState("");
-    const [newJWT, setNewJWT] = useState("");
     const jwt = useSelector((state) => state.jwt);
     if (jwt) {
         history.push("/profile");
-    }
-    if (newJWT) {
-        dispatch(getJWT(newJWT))
     }
 
     async function signIn() {
@@ -42,7 +38,7 @@ const Login = () => {
             window.alert(resultjson.msg);
         } else {
             window.alert("登入成功");
-            setNewJWT(resultjson.data.access_token);
+            dispatch(getJWT(resultjson.data.access_token));
             history.push("/profile");
         }
     }
@@ -67,7 +63,7 @@ const Login = () => {
             window.alert(resultjson.msg);
         } else {
             window.alert("註冊成功");
-            setNewJWT(resultjson.data.access_token);
+            dispatch(getJWT(resultjson.data.access_token));
             history.push("/profile");
         }
     }

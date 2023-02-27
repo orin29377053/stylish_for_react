@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { Container, Row, Col, Form } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { getJWT } from "../../action/todolist";
 
 const Profile = () => {
@@ -41,32 +41,12 @@ const Profile = () => {
     return (
         <Container className="profile">
             <Row className="user-information justify-content-center mx-0">
-                {/* <div>林晉守</div>
-                <div>shine5093@gmail.com</div> */}
                 <Col md={11}>
                     <div>姓名：{newProfile?.data?.name ?? "-"}</div>
                     <div>E-mail：{newProfile?.data?.email ?? "-"}</div>
                     <div>登入方式：{newProfile?.data?.provider==="native" ? "官網":"Facebook"}</div>
                 </Col>
             </Row>
-            {/* <Row>
-                <h3>姓名</h3>
-            </Row>
-            <Row>
-                <div>{newProfile && newProfile?.data.name}</div>
-            </Row>
-            <Row>
-                <h3>Email</h3>
-            </Row>
-            <Row>
-                <div>{newProfile && newProfile?.data.email}</div>
-            </Row>
-            <Row>
-                <h3>登入方式</h3>
-            </Row>
-            <Row>
-                <div>{newProfile && newProfile?.data.provider}</div>
-            </Row> */}
             <Row>
                 <Col>
                     <button

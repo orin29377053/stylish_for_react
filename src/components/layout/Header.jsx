@@ -1,18 +1,15 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { searchProduct } from "../../action/todolist";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "../../App.css";
 
 const Header = () => {
     const [newKeyword, setKeyword] = useState("");
-    const product = useSelector((state) => state.product);
     const order = useSelector((state) => state.order);
     const jwt = useSelector((state) => state.jwt);
 
     const dispatch = useDispatch();
     const history = useHistory();
-    const location = useLocation();
 
     function checkout() {
         if (!jwt) {
@@ -31,66 +28,41 @@ const Header = () => {
         }
     }
 
-    const Gogo = (category) => {
-        let cat;
-        if (category.length > 0) {
-            cat = category;
-        } else {
-            cat = "all";
-        }
-        if (location.pathname !== "/") {
-            history.push("/");
-        }
-        fetch(`/api/1.0/product/${cat}`, { method: "get" })
-            .then((res) => res.json())
-            .then((res) => {
-                dispatch(searchProduct(res));
-                history.push(`?category=${cat}`);
-            });
-    };
-    const Search = (keyword) => {
-        if (location.pathname !== "/") {
-            history.push("/");
-        }
-        fetch(`/api/1.0/product/search?keyword=${keyword}`, {
-            method: "get",
-        })
-            .then((res) => res.json())
-            .then((res) => {
-                dispatch(searchProduct(res));
-            });
-    };
 
     return (
         <div className="header">
             <Link
                 className="header__logo"
-                to="/"
-                onClick={() => Gogo("")}
+                to={{
+                    pathname: "/index/",
+                }}
             ></Link>
 
             <div className="header__categories">
                 <Link
                     variant="contained"
                     className="header__category"
-                    to="/"
-                    onClick={() => Gogo("women")}
+                    to={{
+                        pathname: "/index/women",
+                    }}
                 >
                     女裝
                 </Link>
                 <Link
                     variant="contained"
                     className="header__category"
-                    to="/"
-                    onClick={() => Gogo("men")}
+                    to={{
+                        pathname: "/index/men",
+                    }}
                 >
                     男裝
                 </Link>
                 <Link
                     variant="contained"
                     className="header__category"
-                    to="/"
-                    onClick={() => Gogo("accessories")}
+                    to={{
+                        pathname: "/index/accessories",
+                    }}
                 >
                     配件
                 </Link>
@@ -98,14 +70,14 @@ const Header = () => {
             <input
                 value={newKeyword}
                 className="header__search-input"
+                placeholder="按Enter查詢"
                 onChange={(e) => {
-                    console.log("new", e.target.value);
-                    Search(e.target.value);
-                    history.push(`?keyword=${e.target.value}`);
                     setKeyword(e.target.value);
                 }}
-                onClick={() => {
-                    history.push("/");
+                onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                        history.push(`/index/search?keyword=${newKeyword}`);
+                    }
                 }}
             ></input>
             <div className="header__links">

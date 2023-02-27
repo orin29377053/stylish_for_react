@@ -1,13 +1,12 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useTapPay } from "react-native-tappay";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 import { Row, Col, Table } from "react-bootstrap";
 
 const QTapPay = () => {
-    const dispatch = useDispatch();
 
     const jwt = useSelector((state) => state.jwt);
     const history = useHistory();
