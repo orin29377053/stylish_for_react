@@ -13,6 +13,7 @@ import Login from "./components/home/Login";
 import Profile from "./components/home/Profile";
 import QTapPay from "./components/home/QTapPay";
 import Thankyou from "./components/home/Thankyou";
+import CommonProvider from "./components/layout/CommonProvider";
 
 import { useEffect } from "react";
 import { useLocation, Redirect } from "react-router-dom";
@@ -29,35 +30,37 @@ function ScrollToTop() {
 function App() {
     return (
         <Provider store={store}>
-            <Router>
-                <ScrollToTop />
-                <Header />
-                <Switch>
-                    <Route path="/product/:id">
-                        <Product />
-                    </Route>
-                    <Route path="/login">
-                        <Login />
-                    </Route>
-                    <Route path="/profile">
-                        <Profile />
-                    </Route>
-                    <Route path="/checkout">
-                        <QTapPay />
-                    </Route>
-                    <Route path="/thankyou">
-                        <Thankyou />
-                    </Route>
-                    <Route path="/index/:id?">
-                        <Campaign />
-                        <Content />
-                    </Route>
-                    <Route exact path="/">
-                        <Redirect to="/index" />
-                    </Route>
-                </Switch>
-            </Router>
-            <Footer />
+            <CommonProvider>
+                <Router>
+                    <ScrollToTop />
+                    <Header />
+                    <Switch>
+                        <Route path="/product/:id">
+                            <Product />
+                        </Route>
+                        <Route path="/login">
+                            <Login />
+                        </Route>
+                        <Route path="/profile">
+                            <Profile />
+                        </Route>
+                        <Route path="/checkout">
+                            <QTapPay />
+                        </Route>
+                        <Route path="/thankyou">
+                            <Thankyou />
+                        </Route>
+                        <Route path="/index/:id?">
+                            <Campaign />
+                            <Content />
+                        </Route>
+                        <Route exact path="/">
+                            <Redirect to="/index" />
+                        </Route>
+                    </Switch>
+                </Router>
+                <Footer />
+            </CommonProvider>
         </Provider>
     );
 }
