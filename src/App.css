@@ -540,3 +540,17 @@
     box-shadow: 0 0 7px rgb(0 0 0 / 35%);
     color: #5a5656;
 }
+.admin-button {
+    width: 100%;
+    height: 60px;
+    margin-top: 29px;
+    border: solid 1px #979797;
+    border-radius: 10px;
+    box-shadow: 0 0 7px rgb(0 0 0 / 35%);
+
+    background-color: rgb(169, 152, 152);
+    font-size: 20px;
+    letter-spacing: 4px;
+    color: white;
+    cursor: pointer;
+}

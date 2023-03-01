@@ -1,11 +1,44 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import { getJWT } from "../../action/todolist";
 
+// const admin = () => {
+//     if newUserRole
+//     return (
+//         { (newUserRole=="admin")?
+//             < div >
+//             <button
+//                 onClick={() => {
+//                     window.open("http://localhost:80/admin/campaign ");
+//                 }}
+//             >
+//                 活動登錄
+//             </button>
+//             <button
+//                 onClick={() => {
+//                     window.open("http://localhost:80/admin/product ");
+//                 }}
+//             >
+//                 產品登錄
+//             </button>
+//             <button
+//                 onClick={() => {
+//                     window.open("http://localhost:80/admin/checkout ");
+//                 }}
+//             >
+//                 金流測試
+//             </button>
+//                 </div>:<p></p>
+//     }
+//     );
+// };
+
 const Profile = () => {
     const [newProfile, setNewProfile] = useState("");
+    const [newUserRole, setNewUserRole] = useState("");
+
     const dispatch = useDispatch();
 
     const jwt = useSelector((state) => state.jwt);
@@ -28,8 +61,26 @@ const Profile = () => {
 
         return;
     }
+    async function getPermission(jwt) {
+        const result = await fetch("admin/authority", {
+            method: "get",
+            headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${jwt}`,
+            },
+        });
+
+        const user_role = await result.json();
+        setNewUserRole(user_role.msg);
+        console.log(user_role.msg);
+
+        // setNewProfile(profile);
+
+        return;
+    }
     useEffect(() => {
         getProfile(jwt);
+        getPermission(jwt);
     }, []);
     function logout() {
         dispatch(getJWT(""));
@@ -44,7 +95,15 @@ const Profile = () => {
                 <Col md={11}>
                     <div>姓名：{newProfile?.data?.name ?? "-"}</div>
                     <div>E-mail：{newProfile?.data?.email ?? "-"}</div>
-                    <div>登入方式：{newProfile?.data?.provider==="native" ? "官網":"Facebook"}</div>
+                    <div>
+                        登入方式：
+                        {newProfile?.data?.provider === "native"
+                            ? "官網"
+                            : "Facebook"}
+                    </div>
+                    <div>
+                        身份：{newUserRole == "user" ? "一般會員" : "管理員"}
+                    </div>
                 </Col>
             </Row>
             <Row>
@@ -69,6 +128,50 @@ const Profile = () => {
                     </button>
                 </Col>
             </Row>
+            {newUserRole == "admin" ? (
+
+                    <Row>
+                        <Col>
+                            <button
+                                className="admin-button"
+                                onClick={() => {
+                                    window.open(
+                                        "/admin/campaign "
+                                    );
+                                }}
+                            >
+                                活動登錄
+                            </button>
+                        </Col>
+                        <Col>
+                            <button
+                                className="admin-button"
+                                onClick={() => {
+                                    window.open(
+                                        "/admin/product "
+                                    );
+                                }}
+                            >
+                                產品登錄
+                            </button>
+                        </Col>
+                        <Col>
+                            <button
+                                className="admin-button"
+                                onClick={() => {
+                                    window.open(
+                                        "/admin/checkout "
+                                    );
+                                }}
+                            >
+                                金流測試
+                            </button>
+                        </Col>
+                    </Row>
+                
+            ) : (
+                <p></p>
+            )}
         </Container>
     );
 };
